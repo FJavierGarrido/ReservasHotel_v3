@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ReservaTest {
-/*
+
     private static final String ERROR_EXCEPCION = "Debería haber saltado la excepción.";
     private static final String ERROR_NO_EXCEPCION = "No debería haber saltado la excepción.";
     private static final String NOMBRE_ARDR = "Andrés Rubio Del Río";
@@ -390,5 +390,5 @@ public class ReservaTest {
     }
 
 
- */
+
 }

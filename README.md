@@ -1,6 +1,6 @@
 # Tarea: Reservas Hotel
 ## Profesor: Andrés Rubio del Río
-## Alumno:
+## Alumno:Francisco Javier Garrido Pomares
 
 Tu tarea va a consistir en modelar la gestión de las **reservas del hotel IES Al-Ándalus**. Después de todas las especificaciones y requerimientos anotados, en este **primer spring** de la aplicación el gerente del hotel quiere 
 que gestionemos la reserva de habitaciones, de las que se guarda un **identificador**, un número de **puerta**, la **planta** en la que se ubica la habitación, el **precio** que cuesta alojarse por noche, el **tipo de habitación** que es 
