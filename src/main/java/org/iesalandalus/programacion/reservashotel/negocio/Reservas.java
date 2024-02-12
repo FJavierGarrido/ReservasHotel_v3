@@ -7,6 +7,7 @@ import org.iesalandalus.programacion.reservashotel.dominio.TipoHabitacion;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 public class Reservas {
@@ -159,6 +160,32 @@ public class Reservas {
             }
         }
         return Arrays.copyOf(reservasFuturas, count);
+    }
+
+    public void realizarCheckin(Reserva reserva, LocalDateTime fecha) {
+        if (reserva == null) {
+            throw new NullPointerException("ERROR: No se puede realizar check-in de una reserva nula.");
+        }
+        if (fecha == null) {
+            throw new NullPointerException("ERROR: La fecha de check-in no puede ser nula.");
+        }
+        int indice = buscarIndice(reserva);
+        if (indice != -1 && !tamanoSuperado(indice)) {
+            reservas[indice].setCheckIn(fecha);
+        }
+    }
+
+    public void realizarCheckOut(Reserva reserva, LocalDateTime fecha) {
+        if (reserva == null) {
+            throw new NullPointerException("ERROR: No se puede realizar check-out de una reserva nula.");
+        }
+        if (fecha == null) {
+            throw new NullPointerException("ERROR: La fecha de check-out no puede ser nula.");
+        }
+        int indice = buscarIndice(reserva);
+        if (indice != -1 && !tamanoSuperado(indice)) {
+            reservas[indice].setCheckOut(fecha);
+        }
     }
 }
 
