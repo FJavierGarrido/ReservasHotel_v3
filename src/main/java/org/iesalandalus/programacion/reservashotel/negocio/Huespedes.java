@@ -7,8 +7,8 @@ import javax.naming.OperationNotSupportedException;
 public class Huespedes {
 
     private int capacidad;
-    private int tamano;
-    private Huesped[] huespedes;
+    private static int tamano;
+    private static Huesped[] huespedes;
 
 
     public Huespedes(int capacidad) {
@@ -22,11 +22,11 @@ public class Huespedes {
     }
 
     // Método para obtener una copia profunda de la colección
-    public Huesped[] get() {
+    public static Huesped[] get() {
         return copiaProfundaHuespedes();
     }
 
-    private Huesped[] copiaProfundaHuespedes() {
+    private static Huesped[] copiaProfundaHuespedes() {
         Huesped[] copia = new Huesped[tamano];
         for (int i = 0; i < tamano; i++) {
             copia[i] = new Huesped(huespedes[i]);  // Copia profunda de cada Huesped

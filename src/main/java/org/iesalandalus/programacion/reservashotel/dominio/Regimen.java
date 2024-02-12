@@ -2,10 +2,10 @@ package org.iesalandalus.programacion.reservashotel.dominio;
 
 public enum Regimen {
 
-    SOLO_ALOJAMIENTO("Solo alojamiento", 10),
-    ALOJAMIENTO_DESAYUNO("Alojamiento y desayuno", 15),
-    MEDIA_PENSION("Media pensión", 20),
-    PENSION_COMPLETA("Pensión completa", 25);
+    SOLO_ALOJAMIENTO("SOLO_ALOJAMIENTO", 0),
+    ALOJAMIENTO_DESAYUNO("ALOJAMIENTO_DESAYUNO", 15),
+    MEDIA_PENSION("MEDIA_PENSION", 30),
+    PENSION_COMPLETA("PENSION_COMPLETA", 50);
 
 
     private final String descripcion;
@@ -21,6 +21,8 @@ public enum Regimen {
     public double getIncrementoPrecio() {
         return incrementoPrecio;
     }
+
+
 
     // Método toString
     @Override

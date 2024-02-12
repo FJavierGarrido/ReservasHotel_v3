@@ -380,5 +380,4 @@ public class HuespedTest {
         assertEquals(String.format("nombre=%s (%s), DNI=%s, correo=%s, teléfono=%s, fecha nacimiento=%s", NOMBRE_ARDR, "ARDR", DNI_ARDR, CORREO_ARDR, TELEFONO_ARDR, FECHA_NACIMIENTO_ARDR.format(DateTimeFormatter.ofPattern(FORMATO_FECHA))), huesped.toString(), CADENA_NO_ESPERADA);
     }
 
-
 }

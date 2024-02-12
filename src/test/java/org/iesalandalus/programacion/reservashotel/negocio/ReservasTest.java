@@ -1,6 +1,8 @@
 package org.iesalandalus.programacion.reservashotel.negocio;
 
 
+import org.iesalandalus.programacion.reservashotel.MainApp;
+import org.iesalandalus.programacion.reservashotel.dominio.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ReservasTest {
-/*
+
     private static Huesped huesped1;
     private static Huesped huesped2;
     private static Huesped huesped3;
@@ -44,7 +46,7 @@ public class ReservasTest {
     private static final int PLANTA_1=1;
     private static final int PLANTA_2=2;
     private static final int PLANTA_3=3;
-    private static final int PUERTA_0=0;
+    private static final int PUERTA_0=1;
     private static final int PUERTA_10=10;
 
     private static final double PRECIO_HABITACION_VALIDO=50;
@@ -54,7 +56,7 @@ public class ReservasTest {
 
     private static final Regimen REGIMEN_SOLO_ALOJAMIENTO = Regimen.SOLO_ALOJAMIENTO;
     private static final Regimen REGIMEN_PENSION_COMPLETA=Regimen.PENSION_COMPLETA;
-    private static final Regimen REGIMEN_MEDIA_PENSION=Regimen.MEDIA_PENSION;
+    private static final Regimen REGIMEN_MEDIA_PENSION= Regimen.MEDIA_PENSION;
 
     private static final LocalDate FECHA_INICIO_FUTURA_VALIDA=LocalDate.now().plusDays(3);
     private static final LocalDate FECHA_FIN_FUTURA_VALIDA=FECHA_INICIO_FUTURA_VALIDA.plusDays(7);
@@ -167,8 +169,14 @@ public class ReservasTest {
             assertEquals(reserva2, reservas.buscar(reserva2), RESERVA_NO_ESPERADA);
             assertNotSame(reserva2, copiaReservas[1], REFERENCIA_NO_ESPERADA);
             assertEquals(reserva2, copiaReservas[1], OPERACION_NO_REALIZADA);
+
+
+
         } catch (OperationNotSupportedException e) {
+
+
             fail(EXCEPCION_NO_PROCEDE);
+
         }
     }
 
@@ -543,5 +551,4 @@ public class ReservasTest {
         }
     }
 
-*/
 }
