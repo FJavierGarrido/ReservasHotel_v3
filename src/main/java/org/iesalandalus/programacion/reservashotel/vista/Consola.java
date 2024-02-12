@@ -1,12 +1,9 @@
 package org.iesalandalus.programacion.reservashotel.vista;
 
 import org.iesalandalus.programacion.reservashotel.dominio.*;
-import org.iesalandalus.programacion.reservashotel.negocio.Habitaciones;
 import org.iesalandalus.programacion.reservashotel.negocio.Huespedes;
-import org.iesalandalus.programacion.reservashotel.negocio.Reservas;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
-import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -67,16 +64,6 @@ public class Consola {
     }
 
     public static Huesped getHuespedPorDni() {
-        /*System.out.println("Ingrese el DNI: ");
-        String dni = Entrada.cadena();
-
-        // Puedes retornar un nuevo objeto Huesped con el DNI proporcionado y datos ficticios
-        String fechaStr="01-01-01";
-        LocalDate fecha = LocalDate.parse(fechaStr);
-
-        //me falta compararlo
-        return new Huesped("a",dni,"a","a",fecha);
-*/
 
         System.out.println("Ingrese el DNI: ");
         String dni = Entrada.cadena();
@@ -231,8 +218,24 @@ public class Consola {
 
 
     private int leerNumeroPersonas() {
+
         System.out.println("Ingrese el n�mero de personas: ");
         return Entrada.entero();
+    }
+
+    public static LocalDateTime leerFechaHora() {
+        LocalDateTime fechaHora = null;
+        do {
+            try {
+                System.out.print("Ingrese la fecha y hora en el formato 'dd/MM/yyyy HH:mm': ");
+                String fechaHoraStr = Entrada.cadena();
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                fechaHora = LocalDateTime.parse(fechaHoraStr, formato);
+            } catch (Exception e) {
+                System.out.println("Formato de fecha y hora incorrecto. Inténtelo nuevamente.");
+            }
+        } while (fechaHora == null);
+        return fechaHora;
     }
 
 }
