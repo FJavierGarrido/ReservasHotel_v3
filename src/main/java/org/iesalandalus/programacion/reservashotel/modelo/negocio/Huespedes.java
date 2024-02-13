@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Huespedes {
 
-    private List<Huesped> huespedes;
+    private static List<Huesped> huespedes;
 
 
     public Huespedes() {
@@ -17,11 +17,11 @@ public class Huespedes {
     }
 
     // Método para obtener una copia profunda de la colección
-    public List<Huesped> get() {
+    public static List<Huesped> get() {
         return copiaProfundaHuespedes();
     }
 
-    private List<Huesped> copiaProfundaHuespedes() {
+    private static List<Huesped> copiaProfundaHuespedes() {
         List<Huesped> copia = new ArrayList<>();
         for (Huesped huesped : huespedes) {
             copia.add(new Huesped(huesped)); // Copia profunda de cada Huesped

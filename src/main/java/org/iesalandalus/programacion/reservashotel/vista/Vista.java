@@ -4,9 +4,15 @@ import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.Habitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.Huespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.Reservas;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class Vista {
 
@@ -61,13 +67,13 @@ public class Vista {
             case INSERTAR_RESERVA:
                 insertarReserva();
                 break;
-         /*   case ANULAR_RESERVA:
+            /*case ANULAR_RESERVA:
                 anularReserva();
-                break;
+                break;*/
             case MOSTRAR_RESERVAS:
                 mostrarReservas();
                 break;
-            case CONSULTAR_DISPONIBILIDAD:
+            /*case CONSULTAR_DISPONIBILIDAD:
                 consultarDisponibilidad();
                 break;
             case REALIZAR_CHECKIN:
@@ -120,10 +126,13 @@ public class Vista {
         }
     }
 
+
     private void mostrarHuespedes() {
-        Huesped[] listaHuespedes = huespedes.get();
-        if (listaHuespedes.length > 0) {
-            for (Huesped huesped : listaHuespedes) {
+        List<Huesped> listaHuespedes = huespedes.get();
+        if (!listaHuespedes.isEmpty()) {
+            Huesped[] arrayHuespedes = listaHuespedes.toArray(new Huesped[0]);
+            Arrays.sort(arrayHuespedes, Comparator.comparing(Huesped::getDni));
+            for (Huesped huesped : arrayHuespedes) {
                 System.out.println(huesped);
             }
         } else {
@@ -166,8 +175,9 @@ public class Vista {
     }
 
     private void mostrarHabitaciones() {
-        Habitacion[] listaHabitaciones = habitaciones.get();
+        Habitacion[] listaHabitaciones = habitaciones.get().toArray(new Habitacion[0]);
         if (listaHabitaciones.length > 0) {
+            Arrays.sort(listaHabitaciones, Comparator.comparing(Habitacion::getIdentificador));
             for (Habitacion habitacion : listaHabitaciones) {
                 System.out.println(habitacion);
             }
@@ -175,6 +185,7 @@ public class Vista {
             System.out.println("No hay habitaciones registradas.");
         }
     }
+
 
     private void insertarReserva() {
         try {
@@ -186,7 +197,7 @@ public class Vista {
         }
     }
 
-   /* private void anularReserva() {
+    /*private void anularReserva() {
         try {
             controlador.borrar();
         } catch (Exception e) {
@@ -194,34 +205,37 @@ public class Vista {
         }
     }*/
 
-    private void mostrarReservas() {
-        Reserva[] listaReservas = reservas.get();
-        if (listaReservas.length > 0) {
+    public void mostrarReservas() {
+        List<Reserva> listaReservas = reservas.get();
+        if (listaReservas.isEmpty()) {
+            System.out.println("No hay reservas almacenadas.");
+        } else {
             for (Reserva reserva : listaReservas) {
-                System.out.println(reserva);
+                System.out.println(reserva.toString());
             }
-        } else {
-            System.out.println("No hay reservas registradas.");
         }
     }
 
-    /*private void consultarDisponibilidad() {
-        TipoHabitacion tipoHabitacion = Consola.leerTipoHabitacion();
-        LocalDate fechaInicio = Consola.leerFecha("Introduce la fecha de inicio (dd/mm/aaaa): ");
-        LocalDate fechaFinal = Consola.leerFecha("Introduce la fecha de fin (dd/mm/aaaa): ");
 
-        Habitacion habitacionDisponible = tipoHabitacion.consultarDisponibilidad(tipoHabitacion, fechaInicio, fechaFinal);
-        if (habitacionDisponible != null) {
-            System.out.println("La habitación disponible es: " + habitacionDisponible);
-        } else {
-            System.out.println("No hay habitaciones disponibles para el periodo seleccionado.");
+    /*private Habitacion consultarDisponibilidad(TipoHabitacion tipoHabitacion, LocalDate fechaInicio, LocalDate fechaFin) {
+        for (Habitacion habitacion : habitaciones.get()) {
+            if (habitacion.getTipoHabitacion().equals(tipoHabitacion) &&
+                    reservas.get().stream().noneMatch(reserva ->
+                            reserva.getHabitacion().equals(habitacion) &&
+                                    !reserva.getFechaFinReserva().isBefore(fechaInicio) &&
+                                    !reserva.getFechaInicioReserva().isAfter(fechaFin))) {
+                return habitacion;
+            }
         }
+        System.out.println("No hay habitaciones disponibles para el tipo de habitación y fechas indicadas.");
+        return null;
     }
+
 
     private void realizarCheckin() {
         try {
             Huesped huesped = Consola.getHuespedPorDni();
-            reservas.realizarCheckin(Huesped huesped);
+            reservas.realizarCheckin(huesped);
             System.out.println("Check-in realizado correctamente.");
         } catch (Exception e) {
             System.out.println(e.getMessage());

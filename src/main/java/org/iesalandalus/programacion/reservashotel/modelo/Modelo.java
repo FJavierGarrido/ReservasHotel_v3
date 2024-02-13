@@ -11,6 +11,8 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.Reservas;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Modelo {
 
@@ -83,31 +85,44 @@ public class Modelo {
 
 
     public Huesped[] getHuespedes() {
-        return Huespedes.get();
+        List<Huesped> listaHuespedes = huespedes.get();
+        return listaHuespedes.toArray(new Huesped[0]);
     }
 
+
     public Habitacion[] getHabitaciones() {
-        return habitaciones.get();
+        List<Habitacion> listaHabitaciones = habitaciones.get();
+        return listaHabitaciones.toArray(new Habitacion[0]);
     }
 
     public Habitacion[] getHabitaciones(TipoHabitacion tipoHabitacion) {
-        return habitaciones.get();
+        List<Habitacion> listaHabitaciones = new ArrayList<>();
+        for (Habitacion habitacion : habitaciones.get()) {
+            if (habitacion.getTipoHabitacion().equals(tipoHabitacion)) {
+                listaHabitaciones.add(habitacion);
+            }
+        }
+        return listaHabitaciones.toArray(new Habitacion[0]);
     }
 
     public Reserva[] getReservas() {
-        return reservas.get();
+        List<Reserva> listaReservas = reservas.get();
+        return listaReservas.toArray(new Reserva[0]);
     }
 
     public Reserva[] getReservas(Huesped huesped) {
-        return reservas.getReservas(huesped);
+        List<Reserva> listaReservas = reservas.getReservas(huesped);
+        return listaReservas.toArray(new Reserva[0]);
     }
 
     public Reserva[] getReservas(TipoHabitacion tipoHabitacion) {
-        return reservas.getReservas(tipoHabitacion);
+        List<Reserva> listaReservas = reservas.getReservas(tipoHabitacion);
+        return listaReservas.toArray(new Reserva[0]);
     }
 
     public Reserva[] getReservasFuturas(Habitacion habitacion) {
-        return reservas.getReservasFuturas(habitacion);
+        List<Reserva> listaReservas = reservas.getReservasFuturas(habitacion);
+        return listaReservas.toArray(new Reserva[0]);
     }
 
     public void realizarCheckin(Reserva reserva, LocalDateTime fecha) {

@@ -12,15 +12,18 @@ public class Habitaciones {
     private int tamano;
     private List<Habitacion> habitaciones;
 
+    public Habitaciones() {
+        this.capacidad = Integer.MAX_VALUE; // Sin límite predeterminado de capacidad
+        this.habitaciones = new ArrayList<>();
+    }
+
     public Habitaciones(int capacidad) {
         if (capacidad <= 0) {
             throw new IllegalArgumentException("ERROR: La capacidad debe ser mayor que cero.");
         }
         this.capacidad = capacidad;
-        this.tamano = 0;
         this.habitaciones = new ArrayList<>();
     }
-
     // Método para obtener una copia profunda de la colección
 
     public List<Habitacion> get() {
