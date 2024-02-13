@@ -2,14 +2,15 @@ package org.iesalandalus.programacion.reservashotel.modelo.negocio;
 
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 
-import javax.naming.OperationNotSupportedException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Habitaciones {
 
     private int capacidad;
     private int tamano;
-    private Habitacion[] habitaciones;
-
+    private List<Habitacion> habitaciones;
 
     public Habitaciones(int capacidad) {
         if (capacidad <= 0) {
@@ -17,18 +18,19 @@ public class Habitaciones {
         }
         this.capacidad = capacidad;
         this.tamano = 0;
-        this.habitaciones = new Habitacion[capacidad];
+        this.habitaciones = new ArrayList<>();
     }
 
     // Método para obtener una copia profunda de la colección
-    public Habitacion[] get() {
+
+    public List<Habitacion> get() {
         return copiaProfundaHabitaciones();
     }
 
-    private Habitacion[] copiaProfundaHabitaciones() {
-        Habitacion[] copia = new Habitacion[tamano];
-        for (int i = 0; i < tamano; i++) {
-            copia[i] = new Habitacion(habitaciones[i]); // Copia profunda de cada Habitacion
+    private List<Habitacion> copiaProfundaHabitaciones() {
+        List<Habitacion> copia = new ArrayList<>();
+        for (Habitacion habitacion : habitaciones) {
+            copia.add(new Habitacion(habitacion)); // Copia profunda de cada Habitacion
         }
         return copia;
     }
@@ -42,82 +44,43 @@ public class Habitaciones {
     }
 
     // Método para insertar habitaciones no nulas al final de la colección sin admitir repetidos
-    public void insertar(Habitacion habitacion) throws OperationNotSupportedException {
-        if (habitacion == null) {
-            throw new NullPointerException("ERROR: No se puede insertar una habitación nula.");
+    public void insertar(Habitacion habitacion) {
+        Objects.requireNonNull(habitacion, "ERROR: No se puede insertar una habitación nula.");
+        if (contieneHabitacion(habitacion)) {
+            throw new IllegalArgumentException("ERROR: Ya existe una habitación con ese identificador.");
         }
-        if (contieneHabitacion(habitacion)){
-            throw new OperationNotSupportedException("ERROR: Ya existe una habitación con ese identificador.");
-        }
-        if (tamanoSuperado(tamano)){
-            throw new OperationNotSupportedException("ERROR: No se aceptan más habitaciones.");
+        if (tamanoSuperado()) {
+            throw new IllegalArgumentException("ERROR: No se aceptan más habitaciones.");
         }
 
-        if (!contieneHabitacion(habitacion) && !tamanoSuperado(tamano)) {
-            habitaciones[tamano++] = new Habitacion(habitacion); // Copia profunda de la habitación
-        } else {
-            throw new OperationNotSupportedException("ERROR: Ya existe una habitación con ese identificador.");
-        }
+        habitaciones.add(new Habitacion(habitacion)); // Copia profunda de la habitación
     }
 
+
     private boolean contieneHabitacion(Habitacion habitacion) {
-        for (int i = 0; i < tamano; i++) {
-            if (habitaciones[i].equals(habitacion)) {
-                return true;
-            }
-        }
-        return false;
+        return habitaciones.contains(habitacion);
     }
 
     // Método para buscar una habitación en la colección
     public Habitacion buscar(Habitacion habitacion) {
-        int indice = buscarIndice(habitacion);
-        return (indice != -1) ? habitaciones[indice] : null;
+        int indice = habitaciones.indexOf(habitacion);
+        return (indice != -1) ? habitaciones.get(indice) : null;
     }
 
-    private int buscarIndice(Habitacion habitacion) {
-        for (int i = 0; i < tamano; i++) {
-            if (habitaciones[i].equals(habitacion)) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     // Método para borrar una habitación de la colección
-    public void borrar(Habitacion habitacion) throws OperationNotSupportedException {
-        if (habitacion == null) {
-            throw new NullPointerException("ERROR: No se puede borrar una habitación nula.");
-        }
+    public void borrar(Habitacion habitacion) {
+        Objects.requireNonNull(habitacion, "ERROR: No se puede borrar una habitación nula.");
 
         if (!contieneHabitacion(habitacion)) {
-            throw new OperationNotSupportedException("ERROR: No existe ninguna habitación como la indicada.");
+            throw new IllegalArgumentException("ERROR: No existe ninguna habitación como la indicada.");
         }
 
-        int indice = buscarIndice(habitacion);
-        if (indice != -1) {
-            desplazarUnaPosicionHaciaIzquierda(indice);
-            tamano--;
-        }
+        habitaciones.remove(habitacion);
     }
 
-    private void desplazarUnaPosicionHaciaIzquierda(int indice) {
-        for (int i = indice; i < tamano - 1; i++) {
-            habitaciones[i] = habitaciones[i + 1];
-        }
-        habitaciones[tamano - 1] = null;
+    private boolean tamanoSuperado() {
+        return habitaciones.size() >= capacidad;
     }
-
-    private boolean tamanoSuperado(int indice) {
-        return indice >= capacidad;
-    }
-
-
-
-
-
-
-
-
 
 }
