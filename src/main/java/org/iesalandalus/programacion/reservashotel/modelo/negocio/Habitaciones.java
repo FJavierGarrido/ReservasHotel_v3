@@ -1,6 +1,6 @@
-package org.iesalandalus.programacion.reservashotel.negocio;
+package org.iesalandalus.programacion.reservashotel.modelo.negocio;
 
-import org.iesalandalus.programacion.reservashotel.dominio.Habitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 
 import javax.naming.OperationNotSupportedException;
 

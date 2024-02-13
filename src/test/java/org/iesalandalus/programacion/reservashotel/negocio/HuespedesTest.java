@@ -4,9 +4,8 @@ package org.iesalandalus.programacion.reservashotel.negocio;
 
 //importados a mano, quitar despues
 
-import org.iesalandalus.programacion.reservashotel.dominio.Huesped;         //importados a mano, quitar despues
-import org.iesalandalus.programacion.reservashotel.negocio.Huespedes;       //importados a mano, quitar despues
-import org.iesalandalus.programacion.reservashotel.dominio.TipoHabitacion;  //importados a mano, quitar despues
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;         //importados a mano, quitar despues
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.Huespedes;       //importados a mano, quitar despues
 import org.iesalandalus.programacion.reservashotel.MainApp;                 //importados a mano, quitar despues
 
 

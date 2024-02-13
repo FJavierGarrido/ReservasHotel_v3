@@ -1,7 +1,7 @@
 package org.iesalandalus.programacion.reservashotel.vista;
 
-import org.iesalandalus.programacion.reservashotel.dominio.*;
-import org.iesalandalus.programacion.reservashotel.negocio.Huespedes;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.Huespedes;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import java.time.LocalDate;
@@ -121,7 +121,7 @@ public class Consola {
         return habitacion;
     }
 
-    public Habitacion leerHabitacionPorIdentificador() {
+    public static Habitacion leerHabitacionPorIdentificador() {
         try {
             System.out.println("Ingrese los datos de identificaci�n de la habitaci�n:");
 
@@ -192,7 +192,7 @@ public class Consola {
         return regimenes[opcion - 1];
     }
 
-    public Reserva leerReserva() {
+    public static Reserva leerReserva() {
         try {
             System.out.println("Ingrese los datos de la reserva:");
 
@@ -217,7 +217,7 @@ public class Consola {
 
 
 
-    private int leerNumeroPersonas() {
+    private static int leerNumeroPersonas() {
 
         System.out.println("Ingrese el n�mero de personas: ");
         return Entrada.entero();

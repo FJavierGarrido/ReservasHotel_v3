@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.reservashotel.dominio;
+package org.iesalandalus.programacion.reservashotel.modelo.dominio;
 
 import java.util.Objects;
 

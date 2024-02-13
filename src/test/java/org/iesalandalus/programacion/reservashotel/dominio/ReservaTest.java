@@ -1,5 +1,6 @@
 package org.iesalandalus.programacion.reservashotel.dominio;
 
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
