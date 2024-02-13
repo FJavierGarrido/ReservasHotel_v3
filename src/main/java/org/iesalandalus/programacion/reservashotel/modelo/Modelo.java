@@ -13,7 +13,7 @@ import javax.naming.OperationNotSupportedException;
 import java.time.LocalDateTime;
 
 public class Modelo {
-    public static final int CAPACIDAD = 15;
+
     private Huespedes huespedes;
     private Habitaciones habitaciones;
     private Reservas reservas;
@@ -24,9 +24,9 @@ public class Modelo {
 
     public void comenzar() {
         // Crear instancias de las clases de negocio
-        this.huespedes = new Huespedes(CAPACIDAD);
-        this.habitaciones = new Habitaciones(CAPACIDAD);
-        this.reservas = new Reservas(CAPACIDAD);
+        this.huespedes = new Huespedes();
+        this.habitaciones = new Habitaciones();
+        this.reservas = new Reservas();
     }
 
     public void terminar() {
