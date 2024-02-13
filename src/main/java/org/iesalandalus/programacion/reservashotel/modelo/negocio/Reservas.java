@@ -8,184 +8,99 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Reservas {
 
-    private int capacidad;
-    private int tamano;
-    private Reserva[] reservas;
 
-    public Reservas(int capacidad)  {
-        if(capacidad<=0){
-            throw new IllegalArgumentException("ERROR: La capacidad debe ser mayor que cero.");
-        }
-        this.capacidad = capacidad;
-        this.tamano=0;
-        this.reservas=new Reserva[capacidad];
+    private List<Reserva> reservas;
+
+    public Reservas() {
+        this.reservas = new ArrayList<>();
     }
 
-    public Reserva[] get() {
-        return copiaProfundaReservas();
+    public List<Reserva> get() {
+        return new ArrayList<>(reservas);
     }
 
-
-    public int getTamano() {
-        return tamano;
-    }
-
-    public int getCapacidad() {
-        return capacidad;
-    }
-
-    public void insertar(Reserva reserva) throws OperationNotSupportedException {
-        if (reserva == null) {
-            throw new NullPointerException("ERROR: No se puede insertar una reserva nula.");
-        }
-
+    public void insertar(Reserva reserva) {
+        Objects.requireNonNull(reserva, "ERROR: No se puede insertar una reserva nula.");
         if (buscar(reserva) != null) {
-            throw new OperationNotSupportedException("ERROR: Ya existe una reserva igual.");
+            throw new IllegalArgumentException("ERROR: Ya existe una reserva igual.");
         }
-
-
-
-        if (!capacidadSuperada(tamano)) {
-            reservas[tamano] = reserva;
-            tamano++;
-        } else {
-            throw new OperationNotSupportedException("ERROR: No se aceptan más reservas.");
-        }
+        reservas.add(reserva);
     }
 
 
-    private Reserva[] copiaProfundaReservas() {
-        Reserva[] copiaProfunda = new Reserva[tamano];
-        for (int i = 0; i < tamano; i++) {
-            copiaProfunda[i] = new Reserva(reservas[i]);
+    private List<Reserva> copiaProfundaReservas() {
+        List<Reserva> copiaProfunda = new ArrayList<>();
+        for (Reserva reserva : reservas) {
+            copiaProfunda.add(new Reserva(reserva));
         }
         return copiaProfunda;
     }
 
-    private int buscarIndice(Reserva reserva) {
 
-        for (int i = 0; i < tamano; i++) {
-            if (reservas[i].equals(reserva)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private boolean tamanoSuperado(int indice) {
-        return indice >= tamano;
-    }
-
-    private boolean capacidadSuperada(int indice) {
-        return indice >= capacidad;
-    }
-
-    public Reserva buscar(Reserva reserva){
-        if (reserva==null){
-            throw new NullPointerException("ERROR: No se pueden buscar reservas de un tipo de habitación nula.");
-        }
-
-
-
-
-        int indice = buscarIndice(reserva);
-        if (indice != -1 && !tamanoSuperado(indice)) {
-            return new Reserva(reservas[indice]);
+    public Reserva buscar(Reserva reserva) {
+        Objects.requireNonNull(reserva, "ERROR: No se pueden buscar reservas de un tipo de habitación nula.");
+        int indice = reservas.indexOf(reserva);
+        if (indice != -1) {
+            return new Reserva(reservas.get(indice));
         }
         return null;
     }
 
-    public void borrar(Reserva reserva) throws OperationNotSupportedException{
-        if (reserva==null){
-            throw new NullPointerException("ERROR: No se puede borrar una reserva nula.");
-        }
-        if(buscarIndice(reserva)==-1){
-            throw new OperationNotSupportedException("ERROR: No existe ninguna reserva como la indicada.");
-        }
-        int indice = buscarIndice(reserva);
-        if (indice != -1 && !tamanoSuperado(indice)) {
-            for (int i = indice; i < tamano - 1; i++) {
-                reservas[i] = reservas[i + 1];
-            }
-            tamano--;
-        }
+    public boolean borrar(Reserva reserva) {
+        return reservas.remove(reserva);
     }
 
-    public Reserva[] getReservas(Huesped huesped) {
-
-        if (huesped==null){
-            throw new NullPointerException("ERROR: No se pueden buscar reservas de un huesped nulo.");
-        }
-        Reserva[] reservasHuesped = new Reserva[tamano];
-        int count = 0;
-        for (int i = 0; i < tamano; i++) {
-            if (reservas[i].getHuesped().equals(huesped)) {
-                reservasHuesped[count++] = new Reserva(reservas[i]);
+    public List<Reserva> getReservas(Huesped huesped) {
+        Objects.requireNonNull(huesped, "ERROR: No se pueden buscar reservas de un huesped nulo.");
+        List<Reserva> reservasHuesped = new ArrayList<>();
+        for (Reserva reserva : reservas) {
+            if (reserva.getHuesped().equals(huesped)) {
+                reservasHuesped.add(new Reserva(reserva));
             }
         }
-        return Arrays.copyOf(reservasHuesped, count);
+        return reservasHuesped;
     }
 
-    public Reserva[] getReservas(TipoHabitacion tipoHabitacion) {
-        if (tipoHabitacion==null){
-            throw new NullPointerException("ERROR: No se pueden buscar reservas de un tipo de habitación nula.");
-        }
-        Reserva[] reservasTipoHabitacion = new Reserva[tamano];
-        int count = 0;
-        for (int i = 0; i < tamano; i++) {
-            if (reservas[i].getHabitacion().getTipoHabitacion().equals(tipoHabitacion)) {
-                reservasTipoHabitacion[count++] = new Reserva(reservas[i]);
+    public List<Reserva> getReservas(TipoHabitacion tipoHabitacion) {
+        Objects.requireNonNull(tipoHabitacion, "ERROR: No se pueden buscar reservas de un tipo de habitación nula.");
+        List<Reserva> reservasTipoHabitacion = new ArrayList<>();
+        for (Reserva reserva : reservas) {
+            if (reserva.getHabitacion().getTipoHabitacion().equals(tipoHabitacion)) {
+                reservasTipoHabitacion.add(new Reserva(reserva));
             }
         }
-        return Arrays.copyOf(reservasTipoHabitacion, count);
+        return reservasTipoHabitacion;
     }
 
-    public Reserva[] getReservasFuturas(Habitacion habitacion) {
-
-        if (habitacion==null){
-            throw new NullPointerException("ERROR: No se pueden buscar reservas de una habitación nula.");
-        }
-
-
-        Reserva[] reservasFuturas = new Reserva[tamano];
-        int count = 0;
-        for (int i = 0; i < tamano; i++) {
-            if (reservas[i].getHabitacion().equals(habitacion) &&
-                    reservas[i].getFechaInicioReserva().isAfter(LocalDate.now())) {
-                reservasFuturas[count++] = new Reserva(reservas[i]);
+    public List<Reserva> getReservasFuturas(Habitacion habitacion) {
+        Objects.requireNonNull(habitacion, "ERROR: No se pueden buscar reservas de una habitación nula.");
+        List<Reserva> reservasFuturas = new ArrayList<>();
+        for (Reserva reserva : reservas) {
+            if (reserva.getHabitacion().equals(habitacion) &&
+                    reserva.getFechaInicioReserva().isAfter(LocalDate.now())) {
+                reservasFuturas.add(new Reserva(reserva));
             }
         }
-        return Arrays.copyOf(reservasFuturas, count);
+        return reservasFuturas;
     }
 
     public void realizarCheckin(Reserva reserva, LocalDateTime fecha) {
-        if (reserva == null) {
-            throw new NullPointerException("ERROR: No se puede realizar check-in de una reserva nula.");
-        }
-        if (fecha == null) {
-            throw new NullPointerException("ERROR: La fecha de check-in no puede ser nula.");
-        }
-        int indice = buscarIndice(reserva);
-        if (indice != -1 && !tamanoSuperado(indice)) {
-            reservas[indice].setCheckIn(fecha);
-        }
+        Objects.requireNonNull(reserva, "ERROR: No se puede realizar check-in de una reserva nula.");
+        Objects.requireNonNull(fecha, "ERROR: La fecha de check-in no puede ser nula.");
+        reserva.setCheckIn(fecha);
     }
 
     public void realizarCheckOut(Reserva reserva, LocalDateTime fecha) {
-        if (reserva == null) {
-            throw new NullPointerException("ERROR: No se puede realizar check-out de una reserva nula.");
-        }
-        if (fecha == null) {
-            throw new NullPointerException("ERROR: La fecha de check-out no puede ser nula.");
-        }
-        int indice = buscarIndice(reserva);
-        if (indice != -1 && !tamanoSuperado(indice)) {
-            reservas[indice].setCheckOut(fecha);
-        }
+        Objects.requireNonNull(reserva, "ERROR: No se puede realizar check-out de una reserva nula.");
+        Objects.requireNonNull(fecha, "ERROR: La fecha de check-out no puede ser nula.");
+        reserva.setCheckOut(fecha);
     }
 
 
